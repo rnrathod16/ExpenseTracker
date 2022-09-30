@@ -1,0 +1,15 @@
+.total {
+    position: absolute;
+    right: 0%;
+    left: 36%;
+    top: 33%;
+    width: fit-content;
+    text-align: center;
+}
+
+
+/* .divColor {
+    width: 10px;
+    height: 25px;
+    margin-right: 6px;
+} */
