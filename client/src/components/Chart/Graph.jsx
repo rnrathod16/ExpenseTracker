@@ -7,7 +7,7 @@ import { getAvail, getLabels, getSum } from '../../helper/helper';
 import { newContext } from '../../App';
 
 Chart.register(ArcElement);
-const da = JSON.parse(localStorage.getItem('transactions'));
+// const da = JSON.parse(localStorage.getItem('transactions'));
 // console.log(getSum(da.transactions));
 
 
@@ -16,7 +16,7 @@ const Graph = () => {
 
     const { dm } = useContext(newContext);
 
-    const rest = dm === undefined ? da : dm;
+    // const rest = dm === undefined ? da : dm;
     // console.log(rest);
 
     // console.log(rest.transactions[0].type);
@@ -25,9 +25,9 @@ const Graph = () => {
     const config = {
         data: {
             datasets: [{
-                data: getSum(rest.transactions),
+                data: getSum(dm),
                 backgroundColor:
-                    getLabels(rest.transactions).map((val, i) => {
+                    getLabels(dm).map((val, i) => {
                         return val.type === "cash" ? "green" : val.type === 'expense' ? "red" : "blue";
                     })
                 // 'green',
@@ -50,7 +50,7 @@ const Graph = () => {
             <div className="d-flex flex-column">
                 <div>
                     <div className="total mb-3">
-                        <h4>Available Cash</h4><h4 style={{ color: getAvail(rest.transactions).color }}> {getAvail(rest.transactions).t} Rs</h4>
+                        <h4>Available Cash</h4><h4 style={{ color: getAvail(dm).color }}> {getAvail(dm).t} Rs</h4>
                     </div>
                     <Doughnut {...config} />
 

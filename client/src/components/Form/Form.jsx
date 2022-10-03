@@ -1,14 +1,18 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import List from './List';
+import { newContext } from '../../App';
 
 const Form = () => {
 
+    const { setdm, dm, count, setCount } = useContext(newContext);
     const [transc, setTransc] = useState({
         title: "",
         type: "",
         amount: ""
     })
+
+
 
 
 
@@ -25,21 +29,23 @@ const Form = () => {
     const postData = async (e) => {
         e.preventDefault();
 
-        const { title, type, amount } = transc;
-
-        if (!title || !type || !amount) {
-            window.alert("Enter all Field")
-            throw new Error("ENter all fields");
-        }
-
         try {
+            const { title, type, amount } = transc;
 
-            const data = await axios.post("http://localhost:5000/transaction/update", transc);
+            if (!title || !type || !amount) {
+                window.alert("Enter all Field")
+                throw new Error("ENter all fields");
+            }
+
+
+            const token = localStorage.getItem('token');
+            const data = await axios.post("http://localhost:5000/transaction/update", { transc, token });
 
             if (data.status === 200) {
-                console.log("data inserted transc");
+                console.log("Transaction Noted");
+                setCount(1);
             } else {
-                console.log(`${data.status} not inserteff`);
+                console.log(`${data.status} Transaction not inserted`);
             }
 
             setTransc({
@@ -52,6 +58,30 @@ const Form = () => {
             console.log(error);
         }
     }
+
+    const getData = async () => {
+
+        try {
+            const token = localStorage.getItem('token')
+            const result = await axios.get("http://localhost:5000/transaction/request", {
+                headers: {
+                    "authorization": token
+                }
+            });
+
+            // setlist(result.data.do);
+            setdm(result.data.do);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getData();
+        // count++;
+        setCount(10);
+        // sett(false)
+    }, [count])
 
     return (
         <>

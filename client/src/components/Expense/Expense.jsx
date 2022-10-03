@@ -1,11 +1,8 @@
-import React, { useContext } from 'react'
-import { newContext } from '../../App';
-import Graph from '../Chart/Graph'
+import React from 'react'
+import Graph from '../Chart/Graph';
 import Form from '../Form/Form'
 
 const Expense = () => {
-    const { setdm } = useContext(newContext);
-
 
     return (
         <>

@@ -3,50 +3,31 @@ import 'boxicons';
 import "./List.css"
 import { useEffect } from 'react';
 import axios from 'axios'
-import { getLabels } from '../../helper/helper';
 import { newContext } from '../../App';
-// const obj = [
-//     {
-//         color: "green",
-//         name: "Savings"
-//     }, {
-//         color: "red",
-//         name: "Expenses"
-//     }, {
-//         color: "Blue",
-//         name: "Investments"
-//     }, {
-//         color: "Blue",
-//         name: "Investments"
-//     }, {
-//         color: "Blue",
-//         name: "Investments"
-//     }, {
-//         color: "Blue",
-//         name: "Investments"
-//     }
-// ]
 
 const List = () => {
 
-    const [list, setlist] = useState();
-    const { setdm } = useContext(newContext);
+    // const [list, setlist] = useState([]);
+    const { setdm, dm, setCount } = useContext(newContext);
 
-    let da;
-    const getData = async () => {
-        const result = await axios.get("http://localhost:5000/transaction/request");
+    // const getData = async () => {
 
-        localStorage.setItem('transactions', JSON.stringify(result.data));
-        setdm(result.data)
-    }
+    //     try {
+    //         const result = await axios.get("http://localhost:5000/transaction/request");
 
-    useEffect(() => {
-        getData();
-    })
+    //         setlist(result.data.do);
+    //         setdm(result.data.do);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
+    // useEffect(() => {
+    //     getData();
+    // }, [])
 
-    da = JSON.parse(localStorage.getItem('transactions'));
-    getLabels(da.transactions);
+    // console.log(list);
+    // getLabels(list);
     const getColor = (type) => {
         return type === "cash" ? "green" : type === "expense" ? "red" : "blue"
     }
@@ -54,22 +35,27 @@ const List = () => {
     const deleteNote = async (idn) => {
         const idx = { id: idn };
         // console.log(idx);
-        const result = await axios.post("http://localhost:5000/transaction/delete", idx);
+        const token = localStorage.getItem('token')
+        const result = await axios.post("http://localhost:5000/transaction/delete", { idx, token });
 
+        if (result) {
+            setCount(50);
+            console.log("Transaction Deleted");
+        }
     }
 
     return (
         <>
-            {da.transactions.length === 0 ? <h4 className='text-center mt-5'>No Transactions</h4> : <div className="d-flex flex-column">
-                <h4 className='text-center mt-5'>History</h4>
-                <div className='scrol'>
-                    {da.transactions.map((val, i) => {
-                        const color = getColor(val.type);
-                        return <Transactions category={val} key={i} color={color} fun={deleteNote} />
-                    })}
+            <div className="d-flex flex-column">{dm.length === 0 ? <h4 className='text-center mt-5'>No Transactions</h4> :
+                <><h4 className='text-center mt-5'>History</h4>
+                    <div className='scrol'>
+                        {dm.map((val, i) => {
+                            const color = getColor(val.type);
+                            return <Transactions category={val} key={i} color={color} fun={deleteNote} />
+                        })}
 
-                </div>
-            </div>}
+                    </div></>}
+            </div>
 
         </>
     )

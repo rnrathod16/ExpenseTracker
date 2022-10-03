@@ -1,43 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { getAvail, getLabels, getSum } from '../../helper/helper'
+import React, { useContext } from 'react'
+import { getSum } from '../../helper/helper'
 
-const obj = [
-    {
-        color: "green",
-        type: "Savings",
-        percentage: 45
-    }, {
-        color: "red",
-        type: "Expenses",
-        percentage: 20
-    }, {
-        color: "Blue",
-        type: "Investments",
-        percentage: 10
-    }
-]
+import { newContext } from '../../App';
 
 
 const Labels = () => {
 
-    // let data;
-
-    const [l, setl] = useState()
+    const { dm } = useContext(newContext);
 
 
-    const da = JSON.parse(localStorage.getItem('transactions'));
-
-    // console.log(getAvail(da.transactions));
     const getColor = (type) => {
         return type === "cash" ? "green" : type === "expense" ? "red" : "blue"
     }
 
-    useEffect(() => {
-        setl({});
-    }, [])
+
     return (
         <>
-            {getSum(da.transactions, 'type').map((val, id) => {
+            {getSum(dm, 'type').map((val, id) => {
                 const color = getColor(val.type);
                 return <LabelComponent key={id} data={val} color={color} />
             })}
