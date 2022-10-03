@@ -1,6 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 const Navbar = () => {
+
+    const name = localStorage.getItem('username');
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -12,6 +15,9 @@ const Navbar = () => {
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <span className="nav-link" style={{ color: "white" }}>Welcome {name}</span>
+                            </li>
                             <li className="nav-item active">
                                 <NavLink className="nav-link" to="/home">Home</NavLink>
                             </li>

@@ -5,7 +5,7 @@ import { newContext } from '../../App';
 
 const Form = () => {
 
-    const { setdm, dm, count, setCount } = useContext(newContext);
+    const { setdm, count, setCount } = useContext(newContext);
     const [transc, setTransc] = useState({
         title: "",
         type: "",

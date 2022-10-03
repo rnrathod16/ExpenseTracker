@@ -48,7 +48,7 @@ route.post("/login", async(req, res) => {
 
             if (verifyPass) {
                 const token = jwt.sign({ _id: result._id }, process.env.SECRET_KEY);
-                return res.status(200).json({ message: "User Signed in", token: token, dat: result._id });
+                return res.status(200).json({ message: "User Signed in", token: token, dat: result._id, usename: result.username });
             } else {
                 return res.status(401).json({ message: "Invalid Credentials" });
 

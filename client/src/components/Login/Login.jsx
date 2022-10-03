@@ -30,9 +30,13 @@ const Login = () => {
 
                 const token = result.data.token;
                 const id = result.data.dat;
+                const name = result.data.usename;
+
 
                 localStorage.setItem("token", token);
                 localStorage.setItem("id", id);
+                localStorage.setItem("username", name);
+
 
                 history.push("/home");
             }
